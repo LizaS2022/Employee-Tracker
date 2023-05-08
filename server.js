@@ -89,17 +89,10 @@ app.get("/api/getRoles", async (req, res) => {
                 console.log(err);
             }
             else{
-                console.table(results);
+                res.status(200).send(results);
             }
         })  
-        if (err) {
-            console.log(err);
-        }
-        else {
-        // res.json(JSON.parse(results));
-        res.status(200).send(results)
-        // JSON.parse(results);
-      }})
+       })
 
   });
     
@@ -116,17 +109,10 @@ app.get("/api/getRoles", async (req, res) => {
                 console.log(err);
             }
             else{
-                console.table(results);
+                res.status(200).send(results);
             }
         })  
-        if (err) {
-            console.log(err);
-        }
-        else {
-        // res.json(JSON.parse(results));
-        res.status(200).send(results)
-        // JSON.parse(results);
-      }})
+        })
 
   });
  
