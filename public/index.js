@@ -54,13 +54,16 @@ function userPrompt(){
                 console.table(viewDepartments);
                 break;
 
-            case "quit":
+            case "Quit":
+                console.log("application ended");
+                return "Goodbye!";
                 break;
 
             
             default:
             console.log("not a valid request");
         }
+        
         })
 
         .catch((error) => {
@@ -88,6 +91,8 @@ function displayDepartments(){
     .then((data) => {
     // Handle the data here, e.g., display it on the page or manipulate it as needed.
     console.table(data);
+    userPrompt();
+    
     })
     .catch((error) => {
     // Handle any errors that occurred during the fetch request.
@@ -108,6 +113,7 @@ function displayRoles(){
     .then((data) => {
     // Handle the data here, e.g., display it on the page or manipulate it as needed.
     console.table(data);
+    userPrompt();
     })
     .catch((error) => {
     // Handle any errors that occurred during the fetch request.
@@ -132,6 +138,8 @@ function displayEmployees(){
     .then((data) => {
     // Handle the data here, e.g., display it on the page or manipulate it as needed.
     console.table(data);
+    console.log("Successfully added employee");
+    userPrompt();
     })
     .catch((error) => {
     // Handle any errors that occurred during the fetch request.
@@ -211,7 +219,9 @@ console.log(newRole);
         })
 
         .then ((data) => {
-            // console.table(data);
+            console.table(data);
+            console.log("Successfuly added role");
+            userPrompt();
         })
         .catch ((error) => {
             console.error('Error fetching notes:', error);
@@ -254,7 +264,7 @@ async function addEmployee() {
         }  
         )
         console.log(employeeRoleIdList)
-
+       
     
      fetch("http://localhost:3007/api/addEmployee",  {
         
@@ -280,6 +290,7 @@ async function addEmployee() {
                 name: employee.first_name + " " + employee.last_name,
                 value: employee.id,
             }})
+            employeeManagerIdName.push({name:"none", value: null} )
 
 
         
