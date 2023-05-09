@@ -125,6 +125,29 @@ app.get("/api/getRoles", async (req, res) => {
         })
 
   });
+
+
+  // Delete a departments/roles/employees from the database
+app.delete('/api/getdepartments/:id', (req, res) => {
+    const sql = `DELETE FROM department WHERE id = ?`;
+    const params = [req.params.id];
+    
+    db.query(sql, params, (err, result) => {
+      if (err) {
+        res.statusMessage(400).json({ error: res.message });
+      } else if (!result.affectedRows) {
+        res.json({
+        message: 'Departmnt not found',
+        });
+      } else {
+        res.json({
+          message: 'deleted',
+          changes: result.affectedRows,
+          id: req.params.id
+        });
+      }
+    });
+  });
  
   
  

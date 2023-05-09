@@ -58,6 +58,11 @@ function userPrompt(){
                 console.log("application ended");
                 return "Goodbye!";
                 break;
+            
+            // case "Delete Department":
+            //     console.log("Department deleted");
+            //     deleteDepartments();
+            //     break;
 
             
             default:
@@ -365,6 +370,8 @@ async function addEmployee() {
         })
 });
 }
+
+
 
 app.listen(PORT , () => {
     console.log("server is running on port{PORT}");
