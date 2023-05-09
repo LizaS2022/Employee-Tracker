@@ -104,6 +104,7 @@ app.get("/api/getRoles", async (req, res) => {
     VALUES (?,?,?,?)`
     db.query(sqlAdddRole,[first_name, last_name, role_id, manager_id ] ,function (err, results) {
         const showAllEmployees = `SELECT * FROM employee`;
+
         db.query(showAllEmployees,function (err,results){
             if (err) {
                 console.log(err);

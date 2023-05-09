@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
 // const fs = require('fs');
 const express = require('express');
+const { Console } = require('console');
 
 // const companyDB = require("server.js");
 const PORT = process.env.PORT || 3040;
@@ -143,6 +144,25 @@ function displayEmployees(){
 
 function addRole() {
 
+    fetch("http://localhost:3007/api/getdepartments")
+    .then((response) => {
+    if (response.ok) {
+        return response.json();
+    } else {
+        throw new Error(`HTTP error: ${response.status}`);
+    }
+    })
+    .then((data) => {
+    // Handle the data here, e.g., display it on the page or manipulate it as needed.
+    console.log(data);
+        const departmentList = data.map((department)=> {
+            return {
+                name:department.name,
+                value: department.id,
+            }
+        }  
+        )
+        console.log(departmentList);
     inquirer
     .prompt ([
         {
@@ -156,9 +176,10 @@ function addRole() {
             message: "What is the salary of the role?", 
         },
         {
-            type: "input", 
+            type: "list", 
             name: "department_id",
             message: "Which department does the role belong to?", 
+            choices: departmentList, 
         }
 
     ])
@@ -169,7 +190,8 @@ function addRole() {
             department_id:answers.department_id,
 
         };
-
+console.log(newRole);
+    
         fetch("http://localhost:3007/api/addRole", {
         
             method: "POST",
@@ -189,17 +211,81 @@ function addRole() {
         })
 
         .then ((data) => {
-            console.table(data);
+            // console.table(data);
         })
         .catch ((error) => {
             console.error('Error fetching notes:', error);
         });
 });
 
+
+
+    })
+    .catch((error) => {
+    // Handle any errors that occurred during the fetch request.
+    console.error('Error fetching notes:', error);
+});
+
+   
 }
 
-function addEmployee() {
 
+
+
+
+
+async function addEmployee() {
+
+    fetch("http://localhost:3007/api/getRoles")
+    .then((response) => {
+    if (response.ok) {
+        return response.json();
+    } else {
+        throw new Error(`HTTP error: ${response.status}`);
+    }
+    })
+    .then((data) => {
+        console.log(data);
+        const employeeRoleIdList = data.map((role)=> {
+            return {
+                name:role.title,
+                value: role.id,
+            }
+        }  
+        )
+        console.log(employeeRoleIdList)
+
+    
+     fetch("http://localhost:3007/api/addEmployee",  {
+        
+     method: "POST",
+     headers: {
+         "Content-Type": "application/json",
+     },
+ })
+    .then ((response) => {
+        if (response.ok) {
+            return response.json();
+        }
+        else {
+            console.log(`HTTP error: ${response.status}`);
+        }
+    })
+
+    .then ((data) => {
+        console.log(data);
+        console.log("in the employer manager id part!")
+        const employeeManagerIdName = data.map((employee) => {
+            return {
+                name: employee.first_name + " " + employee.last_name,
+                value: employee.id,
+            }})
+
+
+        
+
+    // Handle the data here, e.g., display it on the page or manipulate it as needed.
+    
     inquirer
     .prompt ([
         {
@@ -207,29 +293,36 @@ function addEmployee() {
             name: "first_name",
             message: "What is the first name?", 
         },
+
         {
             type: "input", 
             name: "last_name",
             message: "What is the last name?", 
         },
+
         {
-            type: "input", 
+            type: "list", 
             name: "role_id",
-            message: "What is the role id?", 
-        },
-        {
-            type: "input", 
-            name: "manager_id",
-            message: "What is the manager id?", 
+            message: "what is the the title?", 
+            choices: employeeRoleIdList,
         },
 
+        {
+            type: "list", 
+            name: "manager_id",
+            message: "What is the manager name?",
+            choices: employeeManagerIdName,
+        }
+      
+
     ])
+
         .then((answers) => {
             const newEmployee =
             { first_name: answers.first_name,
             last_name: answers.last_name,
             role_id:answers.role_id,
-            manager_id:answers.manager_id ,
+            manager_id:answers.manager_id,
 
         };
 
@@ -254,15 +347,15 @@ function addEmployee() {
         .then ((data) => {
             console.table(data);
         })
+    })
+})
         .catch ((error) => {
             console.error('Error fetching notes:', error);
-        });
+        })
 });
-
 }
-
 
 app.listen(PORT , () => {
     console.log("server is running on port{PORT}");
-});
+})
 
