@@ -38,4 +38,4 @@ Licensed under the [MIT](http://choosealicense.com/licenses/mit/) license.
 
 [The URL of the GitHub profile](https://github.com/LizaS2022).
 
-The URL of the walkthrough video.
+[The URL of the walkthrough video.](https://drive.google.com/file/d/1ui1-LhlEkFtkmudRiQWF1caEeTFKg5jy/view)
