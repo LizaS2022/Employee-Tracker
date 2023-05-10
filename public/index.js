@@ -18,7 +18,7 @@ function userPrompt(){
             type: "list", 
             name: "view",
             message: "What would you like to do?", 
-            choices: ["View All Employees","Add Employee", "View All Roles", "Add Role", "View All Departments", "Quit"]
+            choices: ["View All Employees","Add Employee", "View All Roles", "Add Role", "View All Departments","Update Employee Role", "Quit"]
         }
 
     ])
@@ -51,18 +51,18 @@ function userPrompt(){
             case "View All Departments":
                 console.log("got to department");
                 var viewDepartments = displayDepartments();
-                console.table(viewDepartments);
+                console.log(viewDepartments);
+                break;
+
+            case "Update Employee Role":
+                console.log("got to update employee role case");
+                updateEmployeeRole();
                 break;
 
             case "Quit":
                 console.log("application ended");
                 return "Goodbye!";
                 break;
-            
-            // case "Delete Department":
-            //     console.log("Department deleted");
-            //     deleteDepartments();
-            //     break;
 
             
             default:
@@ -249,7 +249,7 @@ console.log(newRole);
 
 
 
-async function addEmployee() {
+function addEmployee() {
 
     fetch("http://localhost:3007/api/getRoles")
     .then((response) => {
@@ -370,6 +370,114 @@ async function addEmployee() {
         })
 });
 }
+
+
+function updateEmployeeRole(){
+    fetch("http://localhost:3007/api/getEmplyees")
+    .then((response) => {
+    if (response.ok) {
+        return response.json();
+    } else {
+        throw new Error(`HTTP error: ${response.status}`);
+    }
+    })
+    .then((data) => {
+        console.log(data);
+        const employeeNameIdList = data.map((employee)=> {
+            return {
+                name:employee.first_name +" "+ employee.last_name,
+                value: employee.id,
+            }
+        }  
+        )
+        console.log(employeeNameIdList)
+       
+
+        fetch("http://localhost:3007/api/getroles")
+    .then((response) => {
+    if (response.ok) {
+        return response.json();
+    } else {
+        throw new Error(`HTTP error: ${response.status}`);
+    }
+    })
+    .then((data) => {
+        console.log(data);
+        const employeeSelectedRole = data.map((role)=> {
+            return {
+                name:role.title,
+                value: role.id,
+            }
+        }  
+        )
+        console.log(employeeNameIdList)
+
+    // Handle the data here, e.g., display it on the page or manipulate it as needed.
+    
+    inquirer
+    .prompt ([
+        {
+            type: "list", 
+            name: "employeeName",
+            message: "Which employee's role you want to update?", 
+            choices: employeeNameIdList,
+        },
+
+        {
+            type: "list", 
+            name: "role_id",
+            message: "Which role would you like to assign to the selected employee?", 
+            choices: employeeSelectedRole,
+        },
+
+    ])
+
+        .then((answers) => {
+            
+            const updateEmployee =
+            { 
+           first_name: answers.first_name[0],
+           last_name: answers.last_name[1],
+           employee_id: answers.employeeName,
+            
+
+        };
+        console.log("updateEmployee:" +updateEmployee);
+        fetch("http://localhost:3007/api/employee/:id", {
+            
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updateEmployee),
+        })
+
+        .then ((response) => {
+            console.log("im in the employee id response");
+            if (response.ok) {
+                return response.json();
+            }
+            else {
+                console.log(`HTTP error: ${response.status}`);
+            }
+        })
+
+        .then ((data) => {
+            console.table(data);
+        })
+    })
+})
+    })
+        .catch ((error) => {
+            console.error('Error fetching notes:', error);
+        })
+};
+
+
+
+
+
+
 
 
 
