@@ -436,14 +436,15 @@ function updateEmployeeRole(){
             
             const updateEmployee =
             { 
-           first_name: answers.first_name[0],
-           last_name: answers.last_name[1],
-           employee_id: answers.employeeName,
+           
+           role_id: answers.role_id,
+           id: answers.employeeName,
+           
             
 
         };
         console.log("updateEmployee:" +updateEmployee);
-        fetch("http://localhost:3007/api/employee/:id", {
+        fetch("http://localhost:3007/api/employee/$(answers.employeeName)", {
             
             method: "PUT",
             headers: {
@@ -464,6 +465,7 @@ function updateEmployeeRole(){
 
         .then ((data) => {
             console.table(data);
+            userPrompt();
         })
     })
 })

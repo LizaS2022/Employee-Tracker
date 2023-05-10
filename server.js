@@ -129,14 +129,14 @@ app.get("/api/getRoles", async (req, res) => {
 //   update an employee
 app.put("/api/employee/:id",async (req,res) => {
     console.log("in the api role id");
-    const { first_name,last_name, role_id } = req.body;
+    const { id, role_id } = req.body;
     console.log(req.body);
     
     const sqlUpdateRole = `UPDATE employee
     SET role_id = ? 
-    WHERE first_name = ? AND last_name = ?`
+    WHERE id = ?`
 
-    db.query(sqlUpdateRole,[role_id,first_name,last_name] ,function (err, results) {
+    db.query(sqlUpdateRole,[role_id,id] ,function (err, results) {
 
         console.log(err);
         console.log(results);

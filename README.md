@@ -23,7 +23,8 @@ In order to use this app, one will need the use of Inquirer package as well as E
 ## Usage
 
 The application accepts user's input.When the user starts the application, then the user is presented with the following options: view all department, viiew all roles, view all employees, add a department, add a role, add an employee, and update employee role.
-![screenshot]()
+
+![1683690586329](image/README/1683690586329.png)
 
 ## License
 
@@ -36,3 +37,5 @@ Licensed under the [MIT](http://choosealicense.com/licenses/mit/) license.
 ## Questions
 
 [The URL of the GitHub profile](https://github.com/LizaS2022).
+
+The URL of the walkthrough video.
