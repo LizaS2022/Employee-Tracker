@@ -94,13 +94,11 @@ function displayDepartments(){
     }
     })
     .then((data) => {
-    // Handle the data here, e.g., display it on the page or manipulate it as needed.
     console.table(data);
     userPrompt();
     
     })
     .catch((error) => {
-    // Handle any errors that occurred during the fetch request.
     console.error('Error fetching notes:', error);
 });
 }
@@ -167,7 +165,7 @@ function addRole() {
     })
     .then((data) => {
     // Handle the data here, e.g., display it on the page or manipulate it as needed.
-    console.log(data);
+    // console.log(data);
         const departmentList = data.map((department)=> {
             return {
                 name:department.name,
@@ -175,7 +173,7 @@ function addRole() {
             }
         }  
         )
-        console.log(departmentList);
+
     inquirer
     .prompt ([
         {
@@ -203,7 +201,6 @@ function addRole() {
             department_id:answers.department_id,
 
         };
-console.log(newRole);
     
         fetch("http://localhost:3007/api/addRole", {
         
@@ -240,14 +237,7 @@ console.log(newRole);
     // Handle any errors that occurred during the fetch request.
     console.error('Error fetching notes:', error);
 });
-
-   
 }
-
-
-
-
-
 
 function addEmployee() {
 
@@ -260,7 +250,7 @@ function addEmployee() {
     }
     })
     .then((data) => {
-        console.log(data);
+        // console.log(data);
         const employeeRoleIdList = data.map((role)=> {
             return {
                 name:role.title,
@@ -268,9 +258,7 @@ function addEmployee() {
             }
         }  
         )
-        console.log(employeeRoleIdList)
        
-    
      fetch("http://localhost:3007/api/addEmployee",  {
         
      method: "POST",
@@ -288,8 +276,7 @@ function addEmployee() {
     })
 
     .then ((data) => {
-        console.log(data);
-        console.log("in the employer manager id part!")
+        // console.log(data);
         const employeeManagerIdName = data.map((employee) => {
             return {
                 name: employee.first_name + " " + employee.last_name,
@@ -297,10 +284,6 @@ function addEmployee() {
             }})
             employeeManagerIdName.push({name:"none", value: null} )
 
-
-        
-
-    // Handle the data here, e.g., display it on the page or manipulate it as needed.
     
     inquirer
     .prompt ([
@@ -362,6 +345,7 @@ function addEmployee() {
 
         .then ((data) => {
             console.table(data);
+            userPrompt();
         })
     })
 })
@@ -382,7 +366,7 @@ function updateEmployeeRole(){
     }
     })
     .then((data) => {
-        console.log(data);
+        // console.log(data);
         const employeeNameIdList = data.map((employee)=> {
             return {
                 name:employee.first_name +" "+ employee.last_name,
@@ -390,7 +374,6 @@ function updateEmployeeRole(){
             }
         }  
         )
-        console.log(employeeNameIdList)
        
 
         fetch("http://localhost:3007/api/getroles")
@@ -402,7 +385,7 @@ function updateEmployeeRole(){
     }
     })
     .then((data) => {
-        console.log(data);
+        // console.log(data);
         const employeeSelectedRole = data.map((role)=> {
             return {
                 name:role.title,
@@ -410,7 +393,6 @@ function updateEmployeeRole(){
             }
         }  
         )
-        console.log(employeeNameIdList)
 
     // Handle the data here, e.g., display it on the page or manipulate it as needed.
     
@@ -436,15 +418,11 @@ function updateEmployeeRole(){
             
             const updateEmployee =
             { 
-           
            role_id: answers.role_id,
            id: answers.employeeName,
-           
-            
-
         };
-        console.log("updateEmployee:" +updateEmployee);
-        fetch("http://localhost:3007/api/employee/$(answers.employeeName)", {
+
+        fetch("http://localhost:3007/api/employee/${answers.employeeName}", {
             
             method: "PUT",
             headers: {
@@ -454,7 +432,6 @@ function updateEmployeeRole(){
         })
 
         .then ((response) => {
-            console.log("im in the employee id response");
             if (response.ok) {
                 return response.json();
             }
@@ -474,12 +451,6 @@ function updateEmployeeRole(){
             console.error('Error fetching notes:', error);
         })
 };
-
-
-
-
-
-
 
 
 

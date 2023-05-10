@@ -16,7 +16,6 @@ const db = mysql.createConnection(
         password: '',
         database: 'company_db'
     },
-    console.log("connected to the company_db database")
 );
 
 app.get("/api/getdepartments", (req, res) => {
@@ -26,23 +25,18 @@ app.get("/api/getdepartments", (req, res) => {
             console.log(err);
         }
         else {
-        // res.json(JSON.parse(results));
         res.status(200).send(results)
-        // JSON.parse(results);
 }})
 })
 
 
 app.get("/api/getRoles", async (req, res) => {
-    console.log("got to here");
     db.query('SELECT * FROM role', function (err, results) {
         if (err) {
             console.log(err);
         }
         else {
-        // res.json(JSON.parse(results));
         res.status(200).send(results)
-        // JSON.parse(results);
 }})
 })
 
@@ -77,9 +71,7 @@ app.get("/api/getRoles", async (req, res) => {
  
 
   app.post("/api/addRole",async (req,res) => {
-    console.log("got in");
     const { title, salary, department_id } = req.body;
-    console.log("in the add role fetch");
     const sqlAdddRole = `INSERT INTO role (title,salary,department_id)
     VALUES (?,?,?)`
     db.query(sqlAdddRole,[title, salary, department_id] ,function (err, results) {
@@ -93,13 +85,10 @@ app.get("/api/getRoles", async (req, res) => {
             }
         })  
        })
-
   });
     
   app.post("/api/addEmployee",async (req,res) => {
-    console.log("got in");
     const { first_name, last_name, role_id, manager_id } = req.body;
-    console.log("in the add role fetch");
     const sqlAdddRole = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
     VALUES (?,?,?,?)`
     db.query(sqlAdddRole,[first_name, last_name, role_id, manager_id ] ,function (err, results) {
@@ -128,9 +117,7 @@ app.get("/api/getRoles", async (req, res) => {
 
 //   update an employee
 app.put("/api/employee/:id",async (req,res) => {
-    console.log("in the api role id");
     const { id, role_id } = req.body;
-    console.log(req.body);
     
     const sqlUpdateRole = `UPDATE employee
     SET role_id = ? 
@@ -138,8 +125,6 @@ app.put("/api/employee/:id",async (req,res) => {
 
     db.query(sqlUpdateRole,[role_id,id] ,function (err, results) {
 
-        console.log(err);
-        console.log(results);
         const showAllRoles = `SELECT employeeRoleDep.id, employeeRoleDep.first_name, employeeRoleDep.last_name, employeeRoleDep.title, employeeRoleDep.salary, employeeRoleDep.department, concat(employee.first_name," " ,employee.last_name) AS "manager"
         FROM (SELECT employee.id, employee.first_name, employee.last_name, roleDep.title, roleDep.salary,roleDep.department, employee.manager_id
         FROM employee 
@@ -162,10 +147,6 @@ app.put("/api/employee/:id",async (req,res) => {
        })
 
   });
-
-
- 
-  
  
  app.use((req, res) => {
     res.status(404).end();
